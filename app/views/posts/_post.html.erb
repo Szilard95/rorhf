@@ -1,11 +1,13 @@
 <div class="media align-items-center w100 justify-content-around mb-3">
-  <div class="mr-3">1.</div>
+  <div class="mr-3"><%= post_counter + 1 %>.</div>
   <div class="text-center mr-3">
     <a class=" d-block updoot-arrow" href="#"></a>
-    <div class="post-smaller">42</div>
+    <div class="post-smaller"><%= post.score %></div>
   </div>
   <div class="media-body">
-    <strong><%= post.title %></strong><span class="text-muted post-smaller ml-3">(lipsum.com)</span>
-    <div class="text-muted post-smaller">5 hours ago by TestUser | 42 comments</div>
+    <strong><%= post.title %></strong><span class="text-muted post-smaller ml-3">(<%= post.url %>)</span>
+    <div class="text-muted post-smaller"><%= post.created_at %> by <%= post.user.name %> | <%= post.comments.count %>
+      comments
+    </div>
   </div>
 </div>
