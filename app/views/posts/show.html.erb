@@ -1,0 +1,15 @@
+<%= render @post %>
+<% unless @post.body.nil? %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <%= @post.body %>
+    </div>
+  </div>
+<% end %>
+<%= if logged_in?
+      render partial: 'comments/new', locals: {path: comment_post_path(@post)}
+    else
+      content_tag :div, nil, class: 'mb-5'
+    end
+%>
+<%= render PostsHelper::CommentTree.new(@post.comments).render %>

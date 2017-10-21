@@ -1,12 +1,23 @@
 Rails.application.routes.draw do
-  get 'users/new'
+  get 'login', to: 'login#index'
+  post 'login', to: 'login#login'
+  get 'logout', to: 'login#logout'
 
-  get 'users/edit'
 
-  get 'users/show'
+  resources :posts do
+    member do
+      get 'save'
+      get 'upvote'
+      post 'comment', to: 'comments#create'
+    end
+  end
+  resources :comments do
+    member do
+      get 'upvote'
+      post 'reply'
+    end
+  end
+  resources :users
 
-  get 'users/forgotten'
-
-  root 'home#index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'posts#index'
 end

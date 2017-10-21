@@ -1,13 +1,22 @@
 class UsersController < ApplicationController
-  def new
-  end
 
   def edit
+
   end
 
   def show
+
   end
 
   def forgotten
+    redirect_back fallback_location: '/'
+  end
+
+  def update
+    redirect_back fallback_location: '/'
+  end
+
+  def destroy
+    redirect_back fallback_location: '/'
   end
 end

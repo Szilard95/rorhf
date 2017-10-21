@@ -1,0 +1,15 @@
+<div class="mb-4" style="padding-left: <%= comment.level*5 %>rem">
+  <div class="comment-header mb-1">
+    <%= link_to '', upvote_comment_path(comment), class: 'd-inline-block updoot-arrow' %>
+    <span class="text-muted text-smaller">
+      <span class="mr-4"><%= comment.user.name %></span>
+      <span class="mr-4"><%= comment.created_at %></span>
+      <span class="mr-4"><%= comment.score %> points</span>
+      <button class="btn-link p-0" onclick="$('#comment-reply-<%= comment.id %>').toggle()">reply</button>
+    </span>
+  </div>
+  <div class="comment-body mb-1"><%= comment.body %></div>
+  <div id="comment-reply-<%= comment.id %>" style="display: none">
+    <%= render partial: 'comments/new', locals: {path: reply_comment_path(comment)} %>
+  </div>
+</div>

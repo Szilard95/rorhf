@@ -1,0 +1,6 @@
+<%= form_tag path, method: 'post', class: 'mb-5' do %>
+  <div class="form-group">
+    <%= text_area_tag 'body', nil, class: 'form-control mb-2', placeholder: 'comment' %>
+    <%= submit_tag 'comment', class: 'btn ' %>
+  </div>
+<% end %>

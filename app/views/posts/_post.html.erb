@@ -1,13 +1,22 @@
 <div class="media align-items-center w100 justify-content-around mb-3">
-  <div class="mr-3"><%= post_counter + 1 %>.</div>
+  <% if defined? post_counter %>
+    <div class="mr-3 post-count"><%= post_counter + 1 %>.</div>
+  <% end %>
+
   <div class="text-center mr-3">
-    <a class=" d-block updoot-arrow" href="#"></a>
-    <div class="post-smaller"><%= post.score %></div>
+    <%= link_to '', upvote_post_path(post), class: 'd-block updoot-arrow' %>
+    <div class="text-smaller"><%= post.score %></div>
   </div>
+
   <div class="media-body">
-    <strong><%= post.title %></strong><span class="text-muted post-smaller ml-3">(<%= post.url %>)</span>
-    <div class="text-muted post-smaller"><%= post.created_at %> by <%= post.user.name %> | <%= post.comments.count %>
-      comments
+    <%= link_to post.title, post.url.nil? ? post_path(post) : post.url, class: 'font-weight-bold' %>
+    <%= link_to '(' + URI.parse(post.url).host.downcase + ')', post.url, class: 'text-muted text-smaller ml-3' unless post.url.nil? %>
+    <div class="text-muted text-smaller">
+      <%= post.created_at %> by <%= link_to post.user.name, user_path(post.user) %>
+      | <%= link_to post.comments.size.to_s + ' comments', post_path(post) %>
+      <% if logged_in? %>
+        | <%= link_to 'save', save_post_path(post) %>
+      <% end %>
     </div>
   </div>
 </div>

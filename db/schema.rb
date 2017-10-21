@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20171021130746) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "body"
+    t.integer "score"
     t.bigint "post_id"
     t.bigint "user_id"
     t.bigint "parent_id"

@@ -1,0 +1,13 @@
+<h1>submit url or text</h1>
+
+<%= form_for @post, url: {action: 'create'}, method: 'post' do |f| %>
+  <div class="form-group">
+    <%= f.text_field :title, class: 'form-control mb-2', placeholder: 'title' %>
+    <%= f.text_field :url, class: 'form-control', placeholder: 'url' %>
+  </div>
+  <h3>or</h3>
+  <div class="form-group">
+    <%= f.text_area :body, size: "60x12", class: 'form-control mb-2', placeholder: 'text' %>
+    <%= f.submit 'submit', class: 'btn ' %>
+  </div>
+<% end %>
