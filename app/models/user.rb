@@ -16,7 +16,14 @@ class User < ApplicationRecord
 
   has_many :upvoted_posts,
            -> {distinct},
-           source: :post,
+           source: :item,
+           source_type: Post.name,
+           through: :upvotes
+
+  has_many :upvoted_comments,
+           -> {distinct},
+           source: :item,
+           source_type: Comment.name,
            through: :upvotes
 
   has_many :saved_posts,

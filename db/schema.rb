@@ -48,11 +48,12 @@ ActiveRecord::Schema.define(version: 20171104225843) do
 
   create_table "upvotes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
-    t.bigint "post_id"
+    t.string "item_type"
+    t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_upvotes_on_post_id"
-    t.index ["user_id", "post_id"], name: "index_upvotes_on_user_id_and_post_id", unique: true
+    t.index ["item_type", "item_id"], name: "index_upvotes_on_item_type_and_item_id"
+    t.index ["user_id", "item_id", "item_type"], name: "index_upvotes_on_user_id_and_item_id_and_item_type", unique: true
     t.index ["user_id"], name: "index_upvotes_on_user_id"
   end
 

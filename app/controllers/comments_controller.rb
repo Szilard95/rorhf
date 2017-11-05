@@ -1,4 +1,7 @@
 class CommentsController < ApplicationController
+
+  include UpvoteConcern
+
   def new
     @comment = Comment.new
   end
@@ -8,6 +11,7 @@ class CommentsController < ApplicationController
   end
 
   def upvote
+    upvote_item(params[:id], Comment.name)
     redirect_back fallback_location: '/'
   end
 

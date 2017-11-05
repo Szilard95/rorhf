@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+
+  include UpvoteConcern
+
   def index
     @posts = Post.all
   end
@@ -29,12 +32,7 @@ class PostsController < ApplicationController
   end
 
   def upvote
-    upvote = @user.upvotes.find_by_post_id(params[:id])
-    if upvote.nil?
-      Upvote.create(user_id: @user.id, post_id: params[:id])
-    else
-      upvote.destroy
-    end
+    upvote_item(params[:id], Post.name)
     redirect_back fallback_location: '/'
   end
 

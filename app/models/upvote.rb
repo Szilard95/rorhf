@@ -2,7 +2,7 @@ class Upvote < ApplicationRecord
   after_create :add_karma
   before_destroy :subtract_karma
   belongs_to :user
-  belongs_to :post
+  belongs_to :item, polymorphic: true
 
 
   def subtract_karma
@@ -14,9 +14,9 @@ class Upvote < ApplicationRecord
   end
 
   def update_scores(val)
-    post.user.karma += val
-    post.user.save
-    post.score += val
-    post.save
+    item.user.karma += val
+    item.user.save
+    item.score += val
+    item.save
   end
 end
