@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171021130746) do
+ActiveRecord::Schema.define(version: 20171104225843) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "body"
-    t.integer "score"
+    t.integer "score", default: 0
     t.bigint "post_id"
     t.bigint "user_id"
     t.bigint "parent_id"
@@ -29,21 +29,42 @@ ActiveRecord::Schema.define(version: 20171021130746) do
     t.string "title"
     t.string "url"
     t.text "body"
-    t.integer "score"
+    t.integer "score", default: 0
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
+  create_table "saves", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_saves_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_saves_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_saves_on_user_id"
+  end
+
+  create_table "upvotes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_upvotes_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_upvotes_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_upvotes_on_user_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
-    t.string "password"
+    t.string "encrypted_password"
     t.string "name"
-    t.integer "karma"
+    t.integer "karma", default: 0
     t.text "about"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "salt"
   end
 
   add_foreign_key "comments", "posts"

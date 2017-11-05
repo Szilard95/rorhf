@@ -4,18 +4,22 @@
   <% end %>
 
   <div class="text-center mr-3">
-    <%= link_to '', upvote_post_path(post), class: 'd-block updoot-arrow' %>
+    <% if logged_in? %>
+      <%= link_to '', upvote_post_path(post), class: 'd-block updoot-arrow ' + (@user.upvoted_posts.exists?(post.id) ? 'updooted' : '') %>
+    <% else %>
+      <%= link_to '', login_path, class: 'd-block updoot-arrow' %>
+    <% end %>
     <div class="text-smaller"><%= post.score %></div>
   </div>
 
   <div class="media-body">
-    <%= link_to post.title, post.url.nil? ? post_path(post) : post.url, class: 'font-weight-bold' %>
-    <%= link_to '(' + URI.parse(post.url).host.downcase + ')', post.url, class: 'text-muted text-smaller ml-3' unless post.url.nil? %>
+    <%= link_to post.title, post.url.blank? ? post_path(post) : post.url, class: 'font-weight-bold' %>
+    <%= link_to '(' + post.host + ')', post.url, class: 'text-muted text-smaller ml-3' unless post.host.blank? %>
     <div class="text-muted text-smaller">
       <%= post.created_at %> by <%= link_to post.user.name, user_path(post.user) %>
       | <%= link_to post.comments.size.to_s + ' comments', post_path(post) %>
       <% if logged_in? %>
-        | <%= link_to 'save', save_post_path(post) %>
+        | <%= link_to @user.saved_posts.exists?(post.id) ? 'unsave' : 'save', save_post_path(post) %>
       <% end %>
     </div>
   </div>

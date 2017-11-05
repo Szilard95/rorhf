@@ -13,6 +13,9 @@
 <body>
 <div class="container">
   <div id="header" class="pb-5"><%= render 'layouts/header' %></div>
+  <% if flash[:notice] %>
+    <div class="alert alert-primary" role="alert"><%= flash[:notice] %></div>
+  <% end %>
   <div id="content"><%= yield %></div>
   <div id="footer" class="pt-5"><%= render 'layouts/footer' %></div>
 </div>

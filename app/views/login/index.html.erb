@@ -3,7 +3,7 @@
     <h2>login</h2>
     <%= form_tag '/login', method: :post do %>
       <div class="form-group">
-        <%= text_field_tag 'username', nil, class: 'form-control', placeholder: 'username' %>
+        <%= text_field_tag 'name', nil, class: 'form-control', placeholder: 'username' %>
         <%= password_field_tag 'password', nil, class: 'form-control', placeholder: 'password' %>
       </div>
       <div class="form-group">
@@ -16,11 +16,11 @@
   </div>
   <div class="col-md p-5">
     <h2>register</h2>
-    <%= form_tag users_path, method: :post do %>
+    <%= form_for(User.new) do |f| %>
       <div class="form-group">
-        <%= text_field_tag 'username', nil, class: 'form-control', placeholder: 'username' %>
-        <%= password_field_tag 'password', nil, class: 'form-control', placeholder: 'password' %>
-        <%= password_field_tag 'password-confirm', nil, class: 'form-control', placeholder: 'password again' %>
+        <%= f.text_field 'name', class: 'form-control', placeholder: 'username' %>
+        <%= f.password_field 'password', class: 'form-control', placeholder: 'password' %>
+        <%= f.password_field 'password_confirmation', class: 'form-control', placeholder: 'password again' %>
       </div>
       <div class="form-group">
         <%= submit_tag 'register', class: 'btn' %>
@@ -28,3 +28,8 @@
     <% end %>
   </div>
 </div>
+<% if @user && @user.errors.any? %>
+  <% @user.errors.full_messages.each do |message| %>
+    <div class="alert alert-danger" role="alert"><%= message %></div>
+  <% end %>
+<% end %>

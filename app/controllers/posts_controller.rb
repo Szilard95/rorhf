@@ -1,29 +1,10 @@
 class PostsController < ApplicationController
   def index
-    @posts = []
-
-    10.times do |i|
-      post = Post.new(id: i, title: "Post ##{i}", url: 'https://example.com',
-                      score: rand(100), created_at: Time.now, user: @user)
-      @posts.push(post)
-    end
+    @posts = Post.all
   end
 
   def show
-    @post = Post.new(id: 1, title: 'Random Post', body: 'Lorem ipsum dolor sit amet', user: @user,
-                     score: rand(100), created_at: Time.now)
-
-    comments = []
-    (1 + rand(5)).times do |i|
-      comments.push(Comment.new(id: i, post: @post, user: @user, body: "comment ##{i}", score: rand(100),
-                                created_at: Time.now))
-    end
-    rand(15).times do |i|
-      parent = rand(comments.size)
-      comments.push(Comment.new(id: comments.size, post: @post, user: @user, body: "subcomment ##{comments.size} for ##{parent}", score: rand(100),
-                                created_at: Time.now, parent_id: parent))
-    end
-    @post.comments = comments
+    @post = Post.find(params[:id])
   end
 
   def new
@@ -31,13 +12,35 @@ class PostsController < ApplicationController
   end
 
   def create
+    @post = Post.new(post_params)
+    @post.user_id = @user.id
+    @post.save
+    redirect_to '/'
   end
 
   def save
+    save = @user.saves.find_by_post_id(params[:id])
+    if save.nil?
+      Save.create(user_id: @user.id, post_id: params[:id])
+    else
+      save.destroy
+    end
     redirect_back fallback_location: '/'
   end
 
   def upvote
+    upvote = @user.upvotes.find_by_post_id(params[:id])
+    if upvote.nil?
+      Upvote.create(user_id: @user.id, post_id: params[:id])
+    else
+      upvote.destroy
+    end
     redirect_back fallback_location: '/'
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:title, :url, :body)
   end
 end

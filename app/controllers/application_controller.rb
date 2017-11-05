@@ -5,12 +5,6 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @user = User.new
-    @user.id = 1
-    @user.name = 'TestUser'
-    @user.karma = 42
-    @user.about = 'about me'
-    @user.email = 'user@example.com'
-    @user.created_at = Time.now
+    @user = User.find(session[:user]) if session[:user]
   end
 end

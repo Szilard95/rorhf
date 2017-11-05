@@ -5,9 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# 5.times do |i|
-#   User.create(name: "User ##{i}", email: "user#{i}@example.com", karma: rand(100))
-# end
+
 #
 # 5.times do |i|
 #   user = User.offset(rand(User.count)).first
@@ -18,3 +16,24 @@
 #   end
 # end
 #
+5.times do |i|
+  User.create(name: "User##{i}", password: 'secret', email: "user#{i}@example.com", karma: rand(100), about: "about me")
+end
+
+5.times do |i|
+  user = User.offset(rand(User.count)).first
+  post = Post.create(title: "Post ##{i}", url: 'https://example.com',
+                     score: rand(100), user: user)
+
+  (1 + rand(5)).times do |i|
+    user = User.offset(rand(User.count)).first
+    Comment.create(post: post, user: user, body: "comment ##{i}", score: rand(100))
+  end
+
+end
+
+50.times do |i|
+  user = User.offset(rand(User.count)).first
+  parent = Comment.offset(rand(Comment.count)).first
+  Comment.create(post: parent.post, user: user, body: "subcomment ##{i}", score: rand(100), parent_id: parent.id)
+end

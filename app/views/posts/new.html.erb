@@ -1,6 +1,6 @@
 <h1>submit url or text</h1>
 
-<%= form_for @post, url: {action: 'create'}, method: 'post' do |f| %>
+<%= form_for (Post.new) do |f| %>
   <div class="form-group">
     <%= f.text_field :title, class: 'form-control mb-2', placeholder: 'title' %>
     <%= f.text_field :url, class: 'form-control', placeholder: 'url' %>

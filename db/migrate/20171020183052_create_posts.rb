@@ -4,7 +4,7 @@ class CreatePosts < ActiveRecord::Migration[5.1]
       t.string :title
       t.string :url
       t.text :body
-      t.integer :score
+      t.integer :score, default: 0
       t.belongs_to :user, index: true, foreign_key: true
 
       t.timestamps
