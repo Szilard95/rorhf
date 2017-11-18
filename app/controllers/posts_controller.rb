@@ -36,6 +36,16 @@ class PostsController < ApplicationController
     redirect_back fallback_location: '/'
   end
 
+  def fresh
+    @posts = Post.order(created_at: :desc)
+    render "index"
+  end
+
+  def top
+    @posts = Post.order(score: :desc)
+    render "index"
+  end
+
   private
 
   def post_params
