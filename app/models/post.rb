@@ -1,8 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :comments
-  has_many :saves, class_name: 'Save'
-  has_many :upvotes, as: :item
+  has_many :comments, dependent: :destroy
+  has_many :saves, class_name: 'Save', dependent: :destroy
+  has_many :upvotes, as: :item, dependent: :destroy
 
   has_many :upvoters,
            source: :user,

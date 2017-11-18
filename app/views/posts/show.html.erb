@@ -12,4 +12,4 @@
       content_tag :div, nil, class: 'mb-5'
     end
 %>
-<%= render PostsHelper::CommentTree.new(@post.comments).render %>
+<%= render PostsHelper::CommentTree.new(@post.comments.order(score: :desc)).render %>
