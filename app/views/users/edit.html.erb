@@ -28,7 +28,7 @@
 <div>
   <hr>
   <h2 class="mb-3">danger zone</h2>
-  <%= form_tag user_path(@user), method: 'delete' do %>
+  <%= form_tag user_path(@user), method: 'delete', id: 'settings-delete-account-form' do %>
     <div class="form-group">
       <%= submit_tag 'delete my account', class: 'btn btn-danger' %>
     </div>

@@ -63,6 +63,13 @@ class PostsController < ApplicationController
     render "index"
   end
 
+  def saved
+    @from = params[:from].to_i || 0
+    @posts = @user.saved_posts.limit(10).offset(@from)
+    @end = Post.count < @from + 10
+    render "index"
+  end
+
   private
 
   def post_params

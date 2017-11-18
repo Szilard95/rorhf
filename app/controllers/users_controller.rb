@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    redirect_to '/login' unless logged_in?
 
   end
 
@@ -26,11 +27,15 @@ class UsersController < ApplicationController
   end
 
   def update
+    redirect_to '/login' unless logged_in?
     @user.update(user_params)
     redirect_back fallback_location: '/'
   end
 
   def destroy
+    redirect_to '/login' unless logged_in?
+    @user.destroy
+    session[:user] = nil
     redirect_back fallback_location: '/'
   end
 

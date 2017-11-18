@@ -14,6 +14,7 @@ class Upvote < ApplicationRecord
   end
 
   def update_scores(val)
+    return unless item && item.user
     item.user.karma += val
     item.user.save
     item.score += val

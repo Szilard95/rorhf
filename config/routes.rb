@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get 'fresh', to: 'posts#fresh'
   get 'top', to: 'posts#top'
+  get 'saved', to: 'posts#saved'
 
   root 'posts#index'
 end

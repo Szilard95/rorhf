@@ -9,10 +9,10 @@ class User < ApplicationRecord
     self.new_record? || !password.blank?
   end
 
-  has_many :posts
-  has_many :comments
-  has_many :saves, class_name: 'Save'
-  has_many :upvotes
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :saves, class_name: 'Save', dependent: :destroy
+  has_many :upvotes, dependent: :destroy
 
   has_many :upvoted_posts,
            -> {distinct},

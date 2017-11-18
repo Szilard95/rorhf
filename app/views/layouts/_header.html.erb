@@ -21,6 +21,9 @@
       </li>
       <% if logged_in? %>
         <li class="nav-item">
+          <%= link_to 'saved', '/saved', class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
           <%= link_to 'settings', edit_user_path(@user), class: 'nav-link' %>
         </li>
         </ul>
