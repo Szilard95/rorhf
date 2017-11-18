@@ -1,1 +1,4 @@
-<%= render @posts %>
+<% @posts.each_with_index do |post, index| %>
+  <%= render 'post', post: post, post_counter: index + @from %>
+<% end %>
+<%= link_to 'more', "?from=#{@from + 10}", class: 'btn btn-secondary' unless @end %>

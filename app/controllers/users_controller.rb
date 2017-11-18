@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       flash[:notice] = 'Successful_registration'
       redirect_to '/'
     else
-      flash[:notice] = @user.errors.messages
+      flash[:error] = @user.errors.messages
       redirect_back fallback_location: '/'
     end
   end
