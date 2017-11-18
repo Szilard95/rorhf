@@ -1,33 +1,42 @@
 <div class="row">
   <div class="col-md">
-    <h2 class="mb-5"><%= @user.name %></h2>
+    <h2 class="mb-5"><%= @other_user.name %></h2>
     <table>
       <tr>
         <td>created:</td>
-        <td><%= @user.created_at %></td>
+        <td><%= @other_user.created_at %></td>
       </tr>
       <tr>
         <td>karma:</td>
-        <td><%= @user.karma %></td>
+        <td><%= @other_user.karma %></td>
       </tr>
       <tr>
         <td>about:</td>
-        <td><%= @user.about %></td>
+        <td><%= @other_user.about %></td>
       </tr>
     </table>
   </div>
-  <div class="col-md">
-    <h2 class="mb-5">admin zone</h2>
-    <%= link_to 'ban user', nil, class: 'btn btn-warning' %>
-    <%= link_to 'unban user', nil, class: 'btn btn-success' %>
-    <div class="mt-5 mb-2">
-      <%= link_to 'delete comments', nil, class: 'btn btn-danger' %>
+  <% if admin? && @other_user.account_type != 'admin' %>
+    <div class="col-md">
+      <h2 class="mb-5">admin zone</h2>
+      <% if @other_user.banned %>
+        <%= link_to 'unban user', ban_user_path(@other_user), class: 'btn btn-success' %>
+      <% else %>
+        <%= link_to 'ban user', ban_user_path(@other_user), class: 'btn btn-warning' %>
+      <% end %>
+      <div class="mt-5 mb-2">
+        <%= link_to 'delete comments', clear_comments_user_path(@other_user), class: 'btn btn-danger confirmation-required' %>
+      </div>
+      <div class="mb-2">
+        <%= link_to 'delete posts', clear_posts_user_path(@other_user), class: 'btn btn-danger confirmation-required' %>
+      </div>
+      <div class="mb-2">
+        <%= form_tag user_path(@other_user), method: 'delete', class: 'confirmation-required' do %>
+          <div class="form-group">
+            <%= submit_tag 'delete user', class: 'btn btn-danger' %>
+          </div>
+        <% end %>
+      </div>
     </div>
-    <div class="mb-2">
-      <%= link_to 'delete posts', nil, class: 'btn btn-danger' %>
-    </div>
-    <div class="mb-2">
-      <%= link_to 'delete user', nil, class: 'btn btn-danger' %>
-    </div>
-  </div>
+  <% end %>
 </div>

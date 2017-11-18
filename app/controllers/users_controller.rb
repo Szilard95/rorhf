@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @other_user = User.find(params[:id])
   end
 
   def forgotten
@@ -34,9 +34,34 @@ class UsersController < ApplicationController
 
   def destroy
     redirect_to '/login' unless logged_in?
-    @user.destroy
-    session[:user] = nil
-    redirect_back fallback_location: '/'
+    if admin?
+      user = User.find(params[:id])
+      user.destroy
+    else
+      @user.destroy
+      session[:user] = nil
+    end
+    redirect_to '/', notice: 'User deleted'
+  end
+
+  def clear_comments
+    return unless admin?
+    Comment.where(user_id: params[:id]).each {|comment| comment.destroy}
+    redirect_back fallback_location: '/', notice: 'Comments deleted'
+  end
+
+  def clear_posts
+    return unless admin?
+    Post.where(user_id: params[:id]).each {|post| post.destroy}
+    redirect_back fallback_location: '/', notice: 'Posts deleted'
+  end
+
+  def ban
+    return unless admin?
+    user = User.find(params[:id])
+    user.banned = !user.banned
+    user.save
+    redirect_back fallback_location: '/', notice: 'User ' + (user.banned ? 'banned' : 'unbanned')
   end
 
   private

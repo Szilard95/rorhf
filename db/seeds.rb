@@ -20,7 +20,7 @@
   User.create(name: "User##{i}", password: 'secret', email: "user#{i}@example.com", karma: rand(100), about: "about me")
 end
 
-5.times do |i|
+25.times do |i|
   user = User.offset(rand(User.count)).first
   post = Post.create(title: "Post ##{i}", url: 'https://example.com',
                      score: rand(100), user: user)
@@ -37,3 +37,5 @@ end
   parent = Comment.offset(rand(Comment.count)).first
   Comment.create(post: parent.post, user: user, body: "subcomment ##{i}", score: rand(100), parent_id: parent.id)
 end
+
+User.create(name: "admin", password: 'admin', email: "admin@localhost", account_type: 'admin')

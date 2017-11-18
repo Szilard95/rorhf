@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   def index
     @from = params[:from].to_i || 0
     @posts = Post.limit(10).offset(@from)
-    @end = Post.count < @from + 10
+    @end = Post.count <= @from + 10
   end
 
   def show
@@ -52,21 +52,21 @@ class PostsController < ApplicationController
   def fresh
     @from = params[:from].to_i || 0
     @posts = Post.order(created_at: :desc).limit(10).offset(@from)
-    @end = Post.count < @from + 10
+    @end = Post.count <= @from + 10
     render "index"
   end
 
   def top
     @from = params[:from].to_i || 0
     @posts = Post.order(score: :desc).limit(10).offset(@from)
-    @end = Post.count < @from + 10
+    @end = Post.count <= @from + 10
     render "index"
   end
 
   def saved
     @from = params[:from].to_i || 0
     @posts = @user.saved_posts.limit(10).offset(@from)
-    @end = Post.count < @from + 10
+    @end = @user.saved_posts.count <= @from + 10
     render "index"
   end
 

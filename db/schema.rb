@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171104225843) do
+ActiveRecord::Schema.define(version: 20171118223055) do
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "body"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 20171104225843) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "salt"
+    t.string "account_type", default: "user"
+    t.boolean "banned", default: false
   end
 
   add_foreign_key "comments", "posts"

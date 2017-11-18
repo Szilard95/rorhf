@@ -16,7 +16,14 @@ Rails.application.routes.draw do
       post 'reply'
     end
   end
-  resources :users
+
+  resources :users do
+    member do
+      get 'ban'
+      get 'clear_posts'
+      get 'clear_comments'
+    end
+  end
 
   get 'fresh', to: 'posts#fresh'
   get 'top', to: 'posts#top'

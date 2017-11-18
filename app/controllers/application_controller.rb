@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
     session[:user]
   end
 
+  def admin?
+    logged_in? && @user.account_type == 'admin'
+  end
+
   private
 
   def current_user
