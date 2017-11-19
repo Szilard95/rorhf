@@ -32,4 +32,21 @@ class CommentsController < ApplicationController
       redirect_back fallback_location: '/'
     end
   end
+
+  def update
+    comment = Comment.find(params[:id])
+    return unless owns? comment
+    if comment.update(comment_params)
+      redirect_back fallback_location: '/', notice: 'Comment Updated'
+    else
+      flash[:error] = comment.errors.messages
+      redirect_back fallback_location: '/'
+    end
+  end
+
+  private
+
+  def comment_params
+    params.require(:comment).permit(:body)
+  end
 end

@@ -1,11 +1,24 @@
 <%= render @post %>
-<% unless @post.body.nil? %>
-  <div class="card mb-3">
-    <div class="card-body">
-      <%= @post.body %>
+<% if owns? @post %>
+  <%= form_tag post_path(@post), method: 'delete', class: 'form-inline d-inline-block confirmation-required mr-3 mb-3' do %>
+    <%= submit_tag 'delete post', class: 'btn btn-danger' %>
+  <% end %>
+  <% unless @post.body.nil? || @post.body.empty? %>
+    <%= form_for @post, method: :put do |f| %>
+      <%= f.text_area :body, size: "60x12", class: 'form-control mb-2', placeholder: 'text', required: true %>
+      <%= f.submit 'update', class: 'btn mb-3' %>
+    <% end %>
+  <% end %>
+<% else %>
+  <% unless @post.body.nil? || @post.body.empty? %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <%= @post.body %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
+
 <%= if logged_in?
       render partial: 'comments/new', locals: {path: comment_post_path(@post)}
     else

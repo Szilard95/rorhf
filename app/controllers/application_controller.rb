@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     logged_in? && @user.account_type == 'admin'
   end
 
+  def owns?(item)
+    logged_in? && item.user_id == @user.id
+  end
+
   private
 
   def current_user

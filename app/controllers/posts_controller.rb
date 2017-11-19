@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-
   include UpvoteConcern
 
   def index
@@ -22,7 +21,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = @user.id
     if @post.save
-      redirect_to @post, notice: "Post_created", error: nil
+      redirect_to @post, notice: 'Post_created', error: nil
     else
       flash[:error] = @post.errors.messages
       render :new
@@ -53,21 +52,39 @@ class PostsController < ApplicationController
     @from = params[:from].to_i || 0
     @posts = Post.order(created_at: :desc).limit(10).offset(@from)
     @end = Post.count <= @from + 10
-    render "index"
+    render 'index'
   end
 
   def top
     @from = params[:from].to_i || 0
     @posts = Post.order(score: :desc).limit(10).offset(@from)
     @end = Post.count <= @from + 10
-    render "index"
+    render 'index'
   end
 
   def saved
     @from = params[:from].to_i || 0
     @posts = @user.saved_posts.limit(10).offset(@from)
     @end = @user.saved_posts.count <= @from + 10
-    render "index"
+    render 'index'
+  end
+
+  def destroy
+    post = Post.find(params[:id])
+    return unless owns? post
+    post.destroy
+    redirect_to '/', notice: 'Post deleted'
+  end
+
+  def update
+    post = Post.find(params[:id])
+    return unless owns? post
+    if post.update(post_params)
+      redirect_back fallback_location: '/', notice: 'Post Updated'
+    else
+      flash[:error] = post.errors.messages
+      redirect_back fallback_location: '/'
+    end
   end
 
   private
