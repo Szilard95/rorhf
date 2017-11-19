@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def clear_comments
     return unless admin?
-    Comment.where(user_id: params[:id]).each {|comment| comment.destroy}
+    Comment.where(user_id: params[:id]).each {|comment| comment.body = '[deleted]'; comment.save}
     redirect_back fallback_location: '/', notice: 'Comments deleted'
   end
 

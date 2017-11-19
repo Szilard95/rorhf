@@ -35,13 +35,21 @@ class CommentsController < ApplicationController
 
   def update
     comment = Comment.find(params[:id])
-    return unless owns? comment
+    return unless admin? || owns?(comment)
     if comment.update(comment_params)
       redirect_back fallback_location: '/', notice: 'Comment Updated'
     else
       flash[:error] = comment.errors.messages
       redirect_back fallback_location: '/'
     end
+  end
+
+  def destroy
+    comment = Comment.find(params[:id])
+    return unless admin? || owns?(comment)
+    comment.body = '[deleted]'
+    comment.save
+    redirect_back fallback_location: '/', notice: 'Comment deleted'
   end
 
   private

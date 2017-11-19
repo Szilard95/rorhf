@@ -71,14 +71,14 @@ class PostsController < ApplicationController
 
   def destroy
     post = Post.find(params[:id])
-    return unless owns? post
+    return unless admin? || owns?(post)
     post.destroy
     redirect_to '/', notice: 'Post deleted'
   end
 
   def update
     post = Post.find(params[:id])
-    return unless owns? post
+    return unless admin? || owns?(post)
     if post.update(post_params)
       redirect_back fallback_location: '/', notice: 'Post Updated'
     else

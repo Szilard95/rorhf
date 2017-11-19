@@ -8,14 +8,19 @@
       <span class="mr-4"><%= link_to comment.user.name, user_path(comment.user) %></span>
       <span class="mr-4"><%= comment.created_at %></span>
       <span class="mr-4"><%= comment.score %> points</span>
-      <button class="btn-link p-0" onclick="$('#comment-reply-<%= comment.id %>').toggle()">reply</button>
+      <button class="btn btn-sm btn-link p-0" onclick="$('#comment-reply-<%= comment.id %>').toggle()">reply</button>
     </span>
   </div>
-  <% if owns? comment %>
-    <%= form_for comment, method: :put, class: 'mb-5' do |f| %>
-      <%= f.text_area 'body', class: 'form-control mb-2', placeholder: 'comment', required: true %>
-      <%= f.submit 'update', class: 'btn mb-3' %>
-    <% end %>
+  <% if admin? || owns?(comment) %>
+    <div class="position-relative">
+      <%= form_for comment, method: :put, class: 'mb-5' do |f| %>
+        <%= f.text_area 'body', class: 'form-control mb-2', placeholder: 'comment', required: true %>
+        <%= f.submit 'update', class: 'btn mb-3' %>
+      <% end %>
+      <%= form_tag comment_path(comment), method: 'delete', class: 'text-smaller p-0 form-inline d-inline-block position-absolute confirmation-required', style: 'bottom:0; right:0;' do %>
+        <%= submit_tag 'delete comment', class: 'btn btn-danger mb-3' %>
+      <% end %>
+    </div>
   <% else %>
     <div class="comment-body mb-1"><%= comment.body %></div>
   <% end %>
