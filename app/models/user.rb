@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
   def self.authenticate(name, pass)
     user = User.find_by_name(name)
-    user && user.authenticated?(pass) ? user : nil
+    user && user.authenticated?(pass) && !user.banned ? user : nil
   end
 
   def authenticated?(pass)
