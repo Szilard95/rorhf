@@ -1,11 +1,17 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+<% for i in 1..5 %>
+upvote_post_<%= i %>:
+  user_id: <%= i %>
+  item_id: <%= i %>
+  item_type: post
+  created_at: <%= 1.hour.ago.to_datetime %>
+  updated_at: <%= 1.hour.ago.to_datetime %>
+<% end %>
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+<% for i in 1..5 %>
+upvote_comment_<%= i %>:
+  user_id: <%= i %>
+  item_id: <%= i %>
+  item_type: comment
+  created_at: <%= 1.hour.ago.to_datetime %>
+  updated_at: <%= 1.hour.ago.to_datetime %>
+<% end %>

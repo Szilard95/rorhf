@@ -1,15 +1,36 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  email: MyString
-  password: MyString
-  name: MyString
+me:
+  id: 0
+  email: dszilard95@gmail.com
+  encrypted_password: <%= Digest::SHA1.hexdigest('a' + 'b') %>
+  name: Test
   karma: 1
-  about: MyText
+  about: about
+  salt: b
+  account_type: admin
+  created_at: <%= 1.hour.ago.to_datetime %>
+  updated_at: <%= 1.hour.ago.to_datetime %>
 
-two:
-  email: MyString
-  password: MyString
-  name: MyString
+<% for i in 1..4 %>
+user_<%= i %>:
+  id: <%= i %>
+  email: user_<%= i %>@example.com
+  encrypted_password: <%= Digest::SHA1.hexdigest('a' + 'b') %>
+  name: User_<%= i %>
   karma: 1
-  about: MyText
+  about: about_<%= i %>
+  salt: b
+  created_at: <%= 1.hour.ago.to_datetime %>
+  updated_at: <%= 1.hour.ago.to_datetime %>
+<% end %>
+
+user_5:
+  id: 5
+  email: user_5@example.com
+  encrypted_password: <%= Digest::SHA1.hexdigest('a' + 'b') %>
+  name: User_5
+  karma: 1
+  about: about_5
+  salt: b
+  banned: 1
+  created_at: <%= 1.hour.ago.to_datetime %>
+  updated_at: <%= 1.hour.ago.to_datetime %>

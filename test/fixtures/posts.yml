@@ -1,13 +1,10 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  title: MyString
-  url: MyString
-  body: MyText
-  user: one
-
-two:
-  title: MyString
-  url: MyString
-  body: MyText
-  user: two
+<% for i in 1..5 %>
+  post_<%= i %>:
+    id: <%= i %>
+    title: Post_<%= i %>
+    url: example.com
+    user_id: <%= i %>
+    score: 1
+    created_at: <%= 1.hour.ago.to_datetime %>
+    updated_at: <%= 1.hour.ago.to_datetime %>
+<% end %>>
