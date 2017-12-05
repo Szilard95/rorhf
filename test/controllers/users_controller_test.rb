@@ -1,24 +1,14 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  test "should get new" do
-    get users_new_url
-    assert_response :success
-  end
+  test "ban user_1" do
+    post '/login',
+         params: {name: users(:me).name, password: 'a'},
+         headers: {"HTTP_REFERER" => '/'}
+    assert_equal session[:user], users(:me).id
 
-  test "should get edit" do
-    get users_edit_url
-    assert_response :success
-  end
-
-  test "should get show" do
-    get users_show_url
-    assert_response :success
-  end
-
-  test "should get forgotten" do
-    get users_forgotten_url
-    assert_response :success
+    get '/users/1/ban'
+    assert users(:user_1).banned
   end
 
 end
